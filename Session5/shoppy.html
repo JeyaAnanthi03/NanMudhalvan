@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shopping Page</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f4f4;
+      }
+      .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .product {
+        background: white;
+        margin: 15px;
+        padding: 15px;
+        width: 250px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+      .product img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+      .product h3 {
+        font-size: 18px;
+        margin: 10px 0;
+      }
+      .product p {
+        font-size: 16px;
+        color: #555;
+      }
+      .product .price {
+        font-size: 20px;
+        color: #d9534f;
+        font-weight: bold;
+      }
+      .product button {
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+        margin-top: 10px;
+      }
+      .product button:hover {
+        background: #218838;
+      }
+      .HeadPlace {
+        background-color: rgb(5, 15, 100);
+        padding: 10px;
+        display: flex;
+        color: white;
+        border-radius: 15px 15px 0 0;
+        gap: 7px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="HeadPlace">
+      <img
+        class="logo"
+        id="logo"
+        src="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20width='40'%20height='40'%20fill='%23fff'%20class='bi%20bi-bag-heart-fill'%20viewBox='0%200%2016%2016'%3e%3cpath%20d='M11.5%204v-.5a3.5%203.5%200%201%200-7%200V4H1v10a2%202%200%200%200%202%202h10a2%202%200%200%200%202-2V4zM8%201a2.5%202.5%200%200%201%202.5%202.5V4h-5v-.5A2.5%202.5%200%200%201%208%201m0%206.993c1.664-1.711%205.825%201.283%200%205.132-5.825-3.85-1.664-6.843%200-5.132'/%3e%3c/svg%3e"
+        style="cursor: pointer"
+      />
+      <h1>Shoppy.in</h1>
+    </div>
+    <h2>Store</h2>
+    <div class="container" id="product-list"></div>
+
+    <script>
+      async function fetchProducts() {
+        try {
+          let response = await fetch("https://fakestoreapi.com/products");
+          let products = await response.json();
+          displayProducts(products);
+        } catch (error) {
+          console.error("Error fetching products:", error);
+        }
+      }
+
+      function displayProducts(products) {
+        const container = document.getElementById("product-list");
+        container.innerHTML = "";
+
+        products.forEach((product) => {
+          const productDiv = document.createElement("div");
+          productDiv.classList.add("product");
+          productDiv.innerHTML = `
+                    <img src="${product.image}" alt="${product.title}">
+                    <h3>${product.title}</h3>
+                    <p>${product.description.slice(0, 80)}...</p>
+                    <p class="price">$${product.price}</p>
+                    <button>Add to Cart</button>
+                `;
+          container.appendChild(productDiv);
+        });
+      }
+      
+
+      fetchProducts();
+    </script>
+  </body>
+</html>
